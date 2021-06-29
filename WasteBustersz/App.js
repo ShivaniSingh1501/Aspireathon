@@ -1,96 +1,164 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 
 import React from 'react';
-import type {Node} from 'react';
+import Carousel from 'react-native-snap-carousel';
 import {
   SafeAreaView,
   ScrollView,
+  Image,
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
+import { Dimensions, PixelRatio, Platform } from 'react-native'
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import Logo from './component/assets/logo.png'
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+let { height, width } = Dimensions.get('window');
+console.log(height);
+console.log(width);
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+export default class App extends React.Component {
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+  constructor(props){
+      super(props);
+      this.state = {
+        activeIndex:0,
+        carouselItems: [
+        {
+            title:"Optimize",
+            text: "Text 1",
+        },
+        {
+            title:"Recycle",
+            text: "Text 2",
+        },
+        {
+            title:"Reduce Plastic",
+            text: "Text 3",
+        },
+        {
+            title:"Give",
+            text: "Text 4",
+        },
+        {
+            title:"E-waste",
+            text: "Text 5",
+        },
+      ]
+    }
+  }
+
+  _renderItem({item,index}){
+      return (
+        console.log(index),
+        <View style={{
+            backgroundColor: "#f28b1d",
+            borderRadius: 5,
+            height: 250,
+            padding: 50,
+            marginLeft: 25,
+            marginRight: 25, }}>
+          <Text style={{fontWeight: 'bold',
+  fontSize: 28,}}>{item.title}</Text>
+          <Text style={{fontWeight: 'bold',
+  fontSize: 15,}}>{item.text}</Text>
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+
+      )
+  }
+
+  render() {
+      return (
+
+        <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={styles.backgroundStyle}>
+          <Image style={[styles.backgroundImage,
+            {
+              height: PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (20) / 100),
+              }]} source={require('./component/assets/logo.png')} />
+          <View style ={{
+            marginTop: PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (1) / 100),
+            height:PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (11) / 100),
+            width:PixelRatio.roundToNearestPixel(Dimensions.get('window').width * (80) / 100),
+            backgroundColor:"#10a092",
+            alignSelf: "center",
+            alignContent:"center",
+            zIndex: 2,
+            borderRadius: 20,
+            elevation: 5
+              }}>
+                <Text style={[styles.TextStyle, {
+                  alignSelf:"center",
+                  marginTop: PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (4) / 100),
+                  }]}> Waste Busterszz..</Text>
+          </View>
+
+          <View style={[styles.flexRowBetween,{marginLeft:14,marginBottom:12, height:1}]}>
+            {/*}  <Text style={{color: 'white',fontSize: 20,fontWeight: 'bold'}}>Games</Text> */}
+          </View>
+
+          <View style ={{
+            //marginTop: PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (5) / 100),
+            height:PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (15) / 100),
+            width:PixelRatio.roundToNearestPixel(Dimensions.get('window').width * (90) / 100),
+            backgroundColor:"#10a092",
+            alignSelf: "center",
+            //alignContent:"center",
+            zIndex: 2,
+            borderRadius: 20,
+            elevation: 5
+              }}>
+                <Text style={[styles.TextStyle, {
+                  alignSelf:"center",
+                  marginTop: PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (4) / 100),
+                  }]}>Guardians of the Garbage...</Text>
+          </View>
+
+           <View style={[styles.flexRowBetween,{marginLeft:14,marginBottom:12, height:1}]}>
+            {/*}  <Text style={{color: 'white',fontSize: 20,fontWeight: 'bold'}}>Games</Text> */}
+          </View>
+
+          <View style={{ flex: 1, flexDirection:'row', justifyContent: 'center', }}>
+      
+              <Carousel
+                  layout={"default"}
+                  ref={ref => this.carousel = ref}
+                  data={this.state.carouselItems}
+                  sliderWidth={100}
+                  itemWidth={300}
+                  renderItem={this._renderItem}
+                  autoplay={true}
+                  loop={true}
+                  autoplayInterval={2000}
+                  autoplayDelay={500}
+                  inactiveSlideScale={10}
+                  inactiveSlideOpacity={1}
+                  onSnapToItem = { index => this.setState({activeIndex:index}) } />      
+          </View>
+
+           <View style={[styles.flexRowBetween,{marginLeft:14,marginBottom:12, height:30}]}>
+            {/*}  <Text style={{color: 'white',fontSize: 20,fontWeight: 'bold'}}>Games</Text> */}
+          </View>
+
+           
+
+          </ScrollView>
+        
+      );
+  }
+}
 
 const styles = StyleSheet.create({
+  backgroundStyle:{
+    backgroundColor: "#f9f9f9"
+    //backgroundColor: "#25c109"
+    //backgroundColor: "#68F265"
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
@@ -107,6 +175,22 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  RegistrationSubmitButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignContent:'center',
+    backgroundColor: '#0E8EE3',
+    borderRadius: 10,
+    // marginTop: PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (14) / 100),
+    height:PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (7) / 100),
+    width: PixelRatio.roundToNearestPixel(Dimensions.get('window').width * (75) / 100)
+},
+TextStyle: {
+  color: "#000000",
+  fontWeight: 'bold',
+  fontSize: 28,
+  lineHeight: PixelRatio.roundToNearestPixel(Dimensions.get('window').height * (4) / 100),
+},
 });
 
-export default App;
